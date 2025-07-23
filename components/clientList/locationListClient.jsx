@@ -20,13 +20,21 @@ export default function LocationListClient({
     error: adminError,
   } = useAdminSession();
 
+  // const {
+  //   data: locations,
+  //   loading: locationsLoading,
+  //   error: locationsError,
+  //   refetch,
+  //   deleteData,
+  // } = useLocations(initialLocation);
+
   const {
-    data: locations,
-    loading: locationsLoading,
-    error: locationsError,
-    refetch,
-    deleteData,
-  } = useLocations(initialLocation);
+  data: locations,
+  loading: locationsLoading,
+  error: locationsError,
+  refetch,
+  deleteData,
+} = useLocations(initialLocation);
 
   const handleSuccess = () => {
     setShowModal(false);
