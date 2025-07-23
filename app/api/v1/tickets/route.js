@@ -10,7 +10,6 @@ import { getAdminSessionSSR } from "@/lib/server/getAdminSessionSSR";
 import { headers } from "next/headers";
 import { createTicketAuditLog } from "@/utils/auditLogger";
 
-// Remove in-memory cache (Map) and related logic
 
 function getChanges(oldData, newData) {
   const changes = {};
@@ -76,10 +75,7 @@ export async function GET(request) {
     };
     return new NextResponse(JSON.stringify(response), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=2",
-      },
+      
     });
   } catch (error) {
     console.error("Error fetching tickets:", error);

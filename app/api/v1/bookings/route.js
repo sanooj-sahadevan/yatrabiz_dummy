@@ -298,10 +298,7 @@ export async function GET(request) {
       }
       return new NextResponse(JSON.stringify(booking), {
         status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=5",
-        },
+      
       });
     }
 
@@ -353,18 +350,12 @@ export async function GET(request) {
       });
       return new NextResponse(JSON.stringify(customerBookings), {
         status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
-        },
+        
       });
     }
     return new NextResponse(JSON.stringify(bookings), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3",
-      },
+     
     });
   } catch (error) {
     console.error("Error fetching bookings:", error);
