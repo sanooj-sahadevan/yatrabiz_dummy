@@ -1,4 +1,3 @@
-// "use client";
 import { connectToDatabase } from "@/lib/mongodb";
 import Ticket from "@/models/Ticket";
 import { TICKET_COLUMNS } from "@/constants/tableColumns";
@@ -7,8 +6,6 @@ import ToastNotifications from "@/components/common/toastNotifications/toastNoti
 import { getBookingRequest } from "@/lib/server/getBookingRequest";
 import { cookies } from "next/headers";
 import { getAdminSessionSSR } from "@/lib/server/getAdminSessionSSR";
-
-export const revalidate = 60;
 
 export default async function TicketList() {
   try {
