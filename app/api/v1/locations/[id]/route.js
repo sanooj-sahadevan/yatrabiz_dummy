@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Location from "@/models/Location";
 import LocationAuditLog from "@/models/LocationAuditLog";
-// import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import mongoose from "mongoose";
 
 function getChanges(oldData, newData) {
@@ -18,10 +18,12 @@ function getChanges(oldData, newData) {
   return changes;
 }
 
+// GET - Fetch a specific location by ID
 export async function GET(request, { params }) {
   try {
     await connectToDatabase();
-    const { id } = params;
+
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -31,6 +33,7 @@ export async function GET(request, { params }) {
     }
 
     const location = await Location.findById(id);
+
     if (!location) {
       return NextResponse.json(
         { success: false, message: "Location not found" },
@@ -46,10 +49,14 @@ export async function GET(request, { params }) {
       },
       {
         status: 200,
-        
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3",
+        },
       }
     );
   } catch (error) {
+    console.error("Error fetching location:", error);
     return NextResponse.json(
       {
         success: false,
@@ -61,20 +68,32 @@ export async function GET(request, { params }) {
   }
 }
 
+// PUT - Update a location
 export async function PUT(request, { params }) {
   try {
     await connectToDatabase();
-    const { id } = params;
-    const { name, code, adminId } = await request.json();
 
-    if (!id || !name || !code || !adminId) {
+    const { id } = await params;
+    const body = await request.json();
+    const { name, code, adminId } = body;
+
+    if (!id) {
       return NextResponse.json(
-        { success: false, message: "ID, name, code, and adminId are required" },
+        { success: false, message: "Location ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // Validate required fields
+    if (!name || !code || !adminId) {
+      return NextResponse.json(
+        { success: false, message: "Name and code are required" },
         { status: 400 }
       );
     }
 
     const existingLocation = await Location.findById(id).lean();
+
     if (!existingLocation) {
       return NextResponse.json(
         { success: false, message: "Location not found" },
@@ -82,20 +101,26 @@ export async function PUT(request, { params }) {
       );
     }
 
-    const duplicate = await Location.findOne({
+    // Check if location with same code already exists (excluding current location)
+    const duplicateLocation = await Location.findOne({
       code: code.toUpperCase(),
       _id: { $ne: id },
     });
-    if (duplicate) {
+
+    if (duplicateLocation) {
       return NextResponse.json(
         { success: false, message: "Location with this code already exists" },
         { status: 400 }
       );
     }
 
+    // Update location
     const updatedLocation = await Location.findByIdAndUpdate(
       id,
-      { name: name.trim(), code: code.toUpperCase().trim() },
+      {
+        name: name.trim(),
+        code: code.toUpperCase().trim(),
+      },
       { new: true, runValidators: true }
     );
 
@@ -103,6 +128,7 @@ export async function PUT(request, { params }) {
     delete locationData.__v;
 
     const changes = getChanges(existingLocation, locationData);
+
     if (Object.keys(changes).length > 0 && adminId) {
       try {
         await LocationAuditLog.create({
@@ -116,7 +142,7 @@ export async function PUT(request, { params }) {
       }
     }
 
-    // await revalidateTag("locations");
+    await revalidatePath("/admin/location");
 
     return NextResponse.json({
       success: true,
@@ -124,6 +150,7 @@ export async function PUT(request, { params }) {
       data: locationData,
     });
   } catch (error) {
+    console.error("Error updating location:", error);
     return NextResponse.json(
       {
         success: false,
@@ -135,17 +162,21 @@ export async function PUT(request, { params }) {
   }
 }
 
+// DELETE - Delete a location
 export async function DELETE(request, { params }) {
   try {
     await connectToDatabase();
-    const { id } = params;
 
+    const { id } = await params;
+
+    // Handle empty request body gracefully
     let adminId = null;
     try {
       const body = await request.json();
       adminId = body.adminId;
-    } catch (err) {
-      console.warn("No adminId provided in DELETE request body");
+    } catch (jsonError) {
+      // Request body is empty or invalid JSON, continue without adminId
+      console.error("No adminId provided in DELETE request body");
     }
 
     if (!id) {
@@ -156,6 +187,7 @@ export async function DELETE(request, { params }) {
     }
 
     const existingLocation = await Location.findById(id).lean();
+
     if (!existingLocation) {
       return NextResponse.json(
         { success: false, message: "Location not found" },
@@ -165,13 +197,21 @@ export async function DELETE(request, { params }) {
 
     await Location.findByIdAndDelete(id);
 
+    // Only create audit log if adminId is provided
     if (adminId) {
+      // Prepare changes object (all fields from existing value to null)
       const changes = {};
       for (const key in existingLocation) {
-        if (!["_id", "createdAt", "updatedAt", "__v"].includes(key)) {
+        if (
+          key !== "_id" &&
+          key !== "createdAt" &&
+          key !== "updatedAt" &&
+          key !== "__v"
+        ) {
           changes[key] = { from: existingLocation[key], to: null };
         }
       }
+
       try {
         await LocationAuditLog.create({
           adminId: new mongoose.Types.ObjectId(adminId),
@@ -184,13 +224,14 @@ export async function DELETE(request, { params }) {
       }
     }
 
-    // await revalidateTag("locations");
+    revalidateTag("locations");
 
     return NextResponse.json({
       success: true,
       message: "Location deleted successfully",
     });
   } catch (error) {
+    console.error("Error deleting location:", error);
     return NextResponse.json(
       {
         success: false,
