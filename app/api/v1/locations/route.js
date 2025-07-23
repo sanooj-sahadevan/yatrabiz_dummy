@@ -18,10 +18,6 @@ export async function GET(request) {
       },
       {
         status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
-        },
       }
     );
   } catch (error) {
@@ -31,6 +27,7 @@ export async function GET(request) {
     );
   }
 }
+
 
 // ✅ POST handler in /api/v1/locations/route.js
 export async function POST(request) {
@@ -63,6 +60,3 @@ export async function POST(request) {
   }
 }
 
-// ✅ Similarly for PUT and DELETE handlers:
-// Inside PUT and DELETE handlers, after DB update or delete:
-// await revalidateTag("locations");
