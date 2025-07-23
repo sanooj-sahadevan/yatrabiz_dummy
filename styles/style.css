@@ -1,0 +1,356 @@
+.admin-table-container {
+  background: white !important;
+  border: 2px solid #111;
+  border-radius: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 0;
+  max-width: 900px;
+  width: 80vw;
+  min-width: 320px;
+  margin: 12px auto;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-table-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 16px 24px 10px 24px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.admin-table-heading {
+  color: #111827;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.search-input {
+  padding: 7px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 15px;
+  background: #fff;
+  margin-left: 16px;
+}
+
+/* AG Grid Theme Styles */
+.ag-theme-quartz {
+  background: white !important;
+  border-radius: 0 0 0 0;
+  overflow: hidden;
+  border: none;
+  font-size: 15px;
+  width: 100%;
+  flex: 1 1 auto;
+  min-width: 320px;
+  height: 100%;
+}
+
+.ag-theme-quartz .ag-root,
+.ag-theme-quartz .ag-body-viewport,
+.ag-theme-quartz .ag-center-cols-viewport,
+.ag-theme-quartz .ag-center-cols-container {
+  background-color: white !important;
+}
+
+.ag-header-center .ag-header-cell-label {
+  justify-content: center;
+}
+
+.ag-cell,
+.ag-header-cell {
+  border-right: 1px solid #d1d5db !important;
+  border-bottom: 1px solid #d1d5db !important;
+  background: white !important;
+  color: #111827 !important;
+}
+
+.ag-header-cell:last-child,
+.ag-cell:last-child {
+  border-right: none !important;
+}
+
+.ag-row:last-child .ag-cell {
+  border-bottom: none !important;
+}
+
+.ag-header {
+  background: white !important;
+}
+
+/* Row Styling for Pending Status */
+.ag-theme-alpine .ag-row,
+.ag-theme-quartz .ag-row {
+  transition: background-color 0.2s ease;
+}
+
+/* Pending row styling - multiple color options */
+.ag-theme-alpine .ag-row.pending-row,
+.ag-theme-quartz .ag-row.pending-row {
+  background-color: #e0f2fe !important;
+  /* Light blue */
+}
+
+.ag-theme-alpine .ag-row.pending-row .ag-cell,
+.ag-theme-quartz .ag-row.pending-row .ag-cell {
+  background-color: #e0f2fe !important;
+  color: #111827 !important;
+}
+
+/* Alternative colors if light blue doesn't work */
+.ag-theme-alpine .ag-row.pending-row-alt1,
+.ag-theme-quartz .ag-row.pending-row-alt1 {
+  background-color: #f0f9ff !important;
+  /* Sky blue */
+}
+
+.ag-theme-alpine .ag-row.pending-row-alt2,
+.ag-theme-quartz .ag-row.pending-row-alt2 {
+  background-color: #fef3c7 !important;
+  /* Light yellow */
+}
+
+.ag-theme-alpine .ag-row.pending-row-alt3,
+.ag-theme-quartz .ag-row.pending-row-alt3 {
+  background-color: #f3e8ff !important;
+  /* Light purple */
+}
+
+.ag-theme-alpine .ag-row.pending-row-alt4,
+.ag-theme-quartz .ag-row.pending-row-alt4 {
+  background-color: #ecfdf5 !important;
+  /* Light green */
+}
+
+/* Hide Scrollbars */
+.ag-theme-quartz .ag-body-vertical-scroll-viewport::-webkit-scrollbar,
+.ag-theme-quartz .ag-body-horizontal-scroll-viewport::-webkit-scrollbar,
+.ag-theme-alpine .ag-body-vertical-scroll-viewport::-webkit-scrollbar,
+.ag-theme-alpine .ag-body-horizontal-scroll-viewport::-webkit-scrollbar {
+  display: none !important;
+}
+
+.ag-theme-quartz .ag-body-vertical-scroll-viewport,
+.ag-theme-quartz .ag-body-horizontal-scroll-viewport,
+.ag-theme-alpine .ag-body-vertical-scroll-viewport,
+.ag-theme-alpine .ag-body-horizontal-scroll-viewport {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* AG Alpine Theme Styles */
+.ag-theme-alpine {
+  color: #111827 !important;
+  background: white !important;
+}
+
+.ag-theme-alpine .ag-cell {
+  color: #111827 !important;
+  background: white !important;
+}
+
+.ag-theme-alpine .ag-header-cell {
+  color: #111827 !important;
+  background: white !important;
+}
+
+.ag-theme-alpine .ag-paging-panel {
+  color: #111827 !important;
+  background: white !important;
+}
+
+.ag-theme-alpine .ag-paging-page-size-select {
+  color: #111827 !important;
+  background: white !important;
+}
+
+.ag-theme-alpine .ag-paging-page-size-select select {
+  color: #111827 !important;
+  background: white !important;
+}
+
+/* Pagination Styling */
+.ag-paging-panel {
+  background: white !important;
+  border-top: 1px solid #d1d5db !important;
+  color: #111827 !important;
+  font-size: 14px !important;
+  padding: 8px 16px !important;
+}
+
+.ag-paging-panel .ag-paging-page-size-select {
+  color: #111827 !important;
+  background: white !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  margin: 0 8px !important;
+}
+
+.ag-paging-panel .ag-paging-page-size-select select {
+  color: #111827 !important;
+  background: white !important;
+  border: none !important;
+  outline: none !important;
+  font-size: 14px !important;
+}
+
+.ag-paging-panel .ag-paging-button {
+  background: white !important;
+  border: 1px solid #d1d5db !important;
+  color: #111827 !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  margin: 0 2px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+}
+
+.ag-paging-panel .ag-paging-button:hover {
+  background: #f8f9fa !important;
+}
+
+.ag-paging-panel .ag-paging-button.ag-disabled {
+  background: #f8f9fa !important;
+  color: #6b7280 !important;
+  cursor: not-allowed !important;
+}
+
+.ag-paging-panel .ag-paging-row-summary-panel {
+  color: #111827 !important;
+  font-size: 14px !important;
+}
+
+/* AG Alpine Theme Pagination */
+.ag-theme-alpine .ag-paging-panel {
+  background: white !important;
+  border-top: 1px solid #d1d5db !important;
+  color: #111827 !important;
+  font-size: 14px !important;
+  padding: 8px 16px !important;
+}
+
+.ag-theme-alpine .ag-paging-page-size-select {
+  color: #111827 !important;
+  background: white !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  margin: 0 8px !important;
+}
+
+.ag-theme-alpine .ag-paging-page-size-select select {
+  color: #111827 !important;
+  background: white !important;
+  border: none !important;
+  outline: none !important;
+  font-size: 14px !important;
+}
+
+.ag-theme-alpine .ag-paging-button {
+  background: white !important;
+  border: 1px solid #d1d5db !important;
+  color: #111827 !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  margin: 0 2px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+}
+
+.ag-theme-alpine .ag-paging-button:hover {
+  background: #f8f9fa !important;
+}
+
+.ag-theme-alpine .ag-paging-button.ag-disabled {
+  background: #f8f9fa !important;
+  color: #6b7280 !important;
+  cursor: not-allowed !important;
+}
+
+.ag-theme-alpine .ag-paging-row-summary-panel {
+  color: #111827 !important;
+  font-size: 14px !important;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .admin-table-heading {
+    font-size: 1.1rem;
+  }
+
+  .admin-table-header-bar {
+    padding: 10px 8px 6px 8px;
+  }
+
+  .ag-theme-quartz {
+    font-size: 13px;
+  }
+
+  .ag-paging-panel {
+    font-size: 12px !important;
+    padding: 6px 8px !important;
+  }
+
+  .ag-paging-panel .ag-paging-button {
+    font-size: 12px !important;
+    padding: 3px 6px !important;
+  }
+}
+
+
+
+/* Action Column Header Styling */
+.action-column-header {
+  background-color: #fef3c7 !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+  border-left: 2px solid #000000 !important;
+}
+
+/* Alternative colors if the above doesn't work */
+
+
+/* Fix for AG-Grid filter icon overlap */
+.ag-header-cell-menu-button {
+  margin-left: auto !important;
+}
+
+/* Fix for AG-Grid filter input text and icon overlap */
+.ag-text-filter-input,
+.ag-input-field-input {
+  padding-left: 25px !important; /* Adjust as needed to accommodate the icon */
+}
+
+/* Ensure AG-Grid pinned right columns are sticky */
+.ag-theme-alpine .ag-pinned-right,
+.ag-theme-quartz .ag-pinned-right {
+  position: sticky !important;
+  right: 0 !important;
+  z-index: 2;
+  background: #fff !important;
+  box-shadow: -2px 0 6px -2px rgba(0,0,0,0.08);
+}
+
+.ag-theme-alpine .ag-pinned-right .ag-header-cell,
+.ag-theme-quartz .ag-pinned-right .ag-header-cell {
+  background: #fef3c7 !important;
+  font-weight: 600;
+  border-left: 2px solid #000000 !important;
+}
+
+.edit-icon-thin-light {
+  color: #302f2f !important;
+  font-weight: 200 !important;
+  opacity: 0.7;
+}
+

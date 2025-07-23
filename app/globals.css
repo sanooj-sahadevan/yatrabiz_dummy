@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0A2239;
+  --background-alt: #e8f0f8;
+  /* Slightly darker for contrast blocks */
+  --background-tertiary: #e5e7eb;
+  /* Used for hover, cards */
+  --foreground: #111827;
+  /* Dark gray text */
+  --primary: #1e3a8a;
+  /* Deep dark blue - blue-900 */
+  --primary-hover: #4359ff;
+  /* Slightly brighter hover - blue-800 */
+  --accent: #facc15;
+  /* Premium yellow - yellow-400 */
+  --border: #d1d5db;
+  /* Neutral border - gray-300 */
+  --primary-foreground: #ffffff;
+
+  --font-sans: 'Geist', 'Inter', 'Arial', 'Helvetica', sans-serif;
+  --font-mono: 'Geist Mono', 'Menlo', 'Monaco', monospace;
+}
+
+html {
+  background-color: var(--background);
+}
+
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --background-alt: #1a1a1a;
+  --background-tertiary: #262626;
+  --foreground: #f3f4f6;
+  --border: #262626;
+}
+
+/* Base styles */
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Main area */
+main,
+.container {
+  background-color: var(--background);
+  min-height: 100vh;
+}
+
+.heading {
+  color: #15355b;
+  font-weight: bold;
+  font-size: 2.25rem;
+  /* 36px, similar to text-4xl */
+  line-height: 1.2;
+  margin-bottom: 2rem;
+  /* 40px, similar to mb-10 */
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 640px) {
+  .heading {
+    font-size: 1.5rem;
+    /* 24px for small screens */
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Scrollbars */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Dropdown scrollbars */
+.dropdown-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.dropdown-scrollbar::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 2px;
+}
+
+.dropdown-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.dropdown-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dropdown-scrollbar::-webkit-scrollbar-thumb:active {
+  background: #64748b;
+}
+
+.dropdown-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* Utility classes */
+.bg-background {
+  background-color: var(--background) !important;
+}
+
+.bg-background-alt {
+  background-color: var(--background-alt) !important;
+}
+
+.bg-background-tertiary {
+  background-color: var(--background-tertiary) !important;
+}
+
+.text-foreground {
+  color: var(--foreground) !important;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-primary-hover {
+  background-color: var(--primary-hover) !important;
+}
+
+.text-accent {
+  color: var(--accent) !important;
+}
+
+.border-default {
+  border-color: var(--border) !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+.bg-inherit {
+  background-color: inherit !important;
+}
+
+.bg-deep-blue {
+  background-color: #0A2239 !important;
+}
+
+.text-deep-blue {
+  color: #0A2239 !important;
+}
+
+/* Buttons */
+.btn-primary {
+  @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Focus styling */
+*:focus {
+  outline: none;
+  outline-offset: none;
+}
+
+button[aria-label="Toggle Sidebar"],
+a:focus,
+header nav a:focus,
+header nav a:focus-visible,
+header nav a:active {
+  outline: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+header nav a,
+header nav a:hover,
+header nav a:focus,
+header nav a:active {
+  color: white !important;
+}
+
+.logout-hover {
+  transition: background 0.2s, color 0.2s;
+  border-radius: 0.75rem;
+  /* rounded-xl */
+}
+
+.logout-hover:hover {
+  background: #fff !important;
+  color: var(--primary) !important;
+  box-shadow: 0 2px 8px 0 rgba(30, 58, 138, 0.08);
+}
+
+.form-input {
+  @apply w-full px-2 py-1 text-sm bg-white border border-gray-300 rounded-md shadow-sm;
+  @apply focus:outline-none focus:border-gray-500 focus:border-2;
+  @apply transition duration-150 ease-in-out;
+  height: 34px; /* Standard height */
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #c2c1c1; /* gray-300 */
+  border-color: #ffffff;
+}
+
+.react-datepicker__time-list::-webkit-scrollbar {
+  display: none;
+}
+
+.react-datepicker__time-list {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide number input spinners (arrows) for all browsers */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Remove focus ring from radio buttons (GST/Udyog) */
+input[type="radio"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
