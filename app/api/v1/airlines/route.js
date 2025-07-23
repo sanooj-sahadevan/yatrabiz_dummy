@@ -4,6 +4,7 @@ import Airline from "@/models/Airline";
 import AirlineAuditLog from "@/models/AirlineAuditLog";
 import mongoose from "mongoose";
 
+
 export async function GET() {
   try {
     await connectToDatabase();
@@ -17,17 +18,16 @@ export async function GET() {
       },
       {
         status: 200,
-       
       }
     );
   } catch (error) {
-    console.error("Error fetching airlines:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch airlines" },
       { status: 500 }
     );
   }
 }
+
 
 export async function POST(request) {
   try {
