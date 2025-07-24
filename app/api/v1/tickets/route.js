@@ -9,26 +9,14 @@ import AirlineLedger from "@/models/AirlineLedger";
 import { getAdminSessionSSR } from "@/lib/server/getAdminSessionSSR";
 import { headers } from "next/headers";
 import { createTicketAuditLog } from "@/utils/auditLogger";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
-// function getChanges(oldData, newData) {
-//   const changes = {};
-//   for (const key in newData) {
-//     if (oldData[key] !== newData[key]) {
-//       changes[key] = {
-//         from: oldData[key],
-//         to: newData[key],
-//       };
-//     }
-//   }
-//   return changes;
-// }
 
-const CACHE_SECONDS = 30;
-const STALE_SECONDS = 5;
 
 export async function GET(request) {
   try {
+    console.log("GET /tickets called");
+    
     await connectToDatabase();
     const headersList = await headers();
     const cookie = headersList.get("cookie");
@@ -62,7 +50,7 @@ export async function GET(request) {
         status: 200,
         headers: {
           "Content-Type": "application/json",
-          "Cache-Control": `public, s-maxage=${CACHE_SECONDS}, stale-while-revalidate=${STALE_SECONDS}`,
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30"
         },
       }
     );
@@ -235,7 +223,9 @@ export async function POST(request) {
       }).catch(console.error),
     ]);
 
-    revalidatePath("/admin/tickets");
+await revalidateTag('tickets');
+
+    
 
     return NextResponse.json(
       { message: "Ticket created", data: ticket.toObject() },

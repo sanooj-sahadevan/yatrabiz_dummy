@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/lib/mongodb";
 import mongoose from "mongoose";
 import Airline from "@/models/Airline";
@@ -9,6 +8,9 @@ import TicketAuditLog from "@/models/TicketAuditLog";
 import AirlineLedger from "@/models/AirlineLedger";
 import { createTicketAuditLog } from "@/utils/auditLogger";
 import { getAdminSessionSSR } from "@/lib/server/getAdminSessionSSR";
+import { revalidateTag,revalidatePath } from "next/cache";
+
+
 
 function getChanges(oldData, newData) {
   const changes = {};
@@ -71,7 +73,7 @@ export async function PUT(request, { params }) {
       }).catch(console.error);
     }
 
-    revalidatePath("/admin/tickets");
+await revalidateTag("tickets"); // 👈 Use tag-based revalidation
 
     return NextResponse.json(
       { message: "Ticket updated successfully", data: updatedTicket },
@@ -116,7 +118,7 @@ export async function DELETE(request, { params }) {
       ticket: existingTicket,
     }).catch(console.error);
 
-    revalidatePath("/admin/tickets");
+await revalidateTag("tickets");
 
     return NextResponse.json(
       { message: "Ticket deleted successfully" },

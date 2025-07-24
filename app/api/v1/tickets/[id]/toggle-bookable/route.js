@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import Ticket from "@/models/Ticket";
 import { getAdminSessionSSR } from "@/lib/server/getAdminSessionSSR";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { createAuditLog } from "@/utils/auditLogger";
 import { headers } from "next/headers";
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
     await connectToDatabase();
 
@@ -18,15 +18,21 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await context.params;
 
     if (!id) {
-      return NextResponse.json({ message: "Ticket ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Ticket ID is required" },
+        { status: 400 }
+      );
     }
 
     const ticket = await Ticket.findById(id);
     if (!ticket) {
-      return NextResponse.json({ message: "Ticket not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Ticket not found" },
+        { status: 404 }
+      );
     }
 
     const oldStatus = ticket.nonBookable;
@@ -55,7 +61,7 @@ export async function PUT(request, { params }) {
       }),
     ]);
 
-    revalidatePath("/admin/tickets", "page");
+    await revalidateTag("tickets"); // ✅ FIXED: Now it works!
 
     return NextResponse.json(
       {
@@ -68,6 +74,9 @@ export async function PUT(request, { params }) {
     );
   } catch (error) {
     console.error("Error toggling ticket status:", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
