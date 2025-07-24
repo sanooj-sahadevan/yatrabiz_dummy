@@ -9,7 +9,7 @@ import AirlineLedger from "@/models/AirlineLedger";
 import { getAdminSessionSSR } from "@/lib/server/getAdminSessionSSR";
 import { headers } from "next/headers";
 import { createTicketAuditLog } from "@/utils/auditLogger";
-import { revalidateTag } from "next/cache";
+import { revalidateTag ,revalidatePath} from "next/cache";
 
 
 
@@ -223,7 +223,7 @@ export async function POST(request) {
       }).catch(console.error),
     ]);
 
-await revalidateTag('tickets');
+    await revalidatePath("/admin/tickets");
 
     
 

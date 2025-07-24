@@ -73,7 +73,7 @@ export async function PUT(request, { params }) {
       }).catch(console.error);
     }
 
-await revalidateTag("tickets"); // 👈 Use tag-based revalidation
+    await revalidatePath("/admin/tickets");
 
     return NextResponse.json(
       { message: "Ticket updated successfully", data: updatedTicket },
@@ -118,7 +118,7 @@ export async function DELETE(request, { params }) {
       ticket: existingTicket,
     }).catch(console.error);
 
-await revalidateTag("tickets");
+    await revalidatePath("/admin/tickets");
 
     return NextResponse.json(
       { message: "Ticket deleted successfully" },
